@@ -1,6 +1,5 @@
 package com.example.instagram.Adapter;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -53,7 +52,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
         final User user = users.get(position);
         holder.btnFollow.setVisibility(View.VISIBLE);
-        holder.username.setText(user.getFullname());
+        holder.username.setText(user.getUsername());
+        holder.fullname.setText(user.getFullname());
         Glide.with(context).load(user.getImageurl()).into(holder.image_profile);
 
         //Su kien khi follow
@@ -72,7 +72,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
                 ((FragmentActivity) context).getFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new ProfileFragment()).commit();
-//                context.addToBackStack(null);
 
             }
         });
