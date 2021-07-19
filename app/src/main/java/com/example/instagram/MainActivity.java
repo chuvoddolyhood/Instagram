@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 case R.id.nav_add: {
                     selectedFragment = null;
-                    startActivity(new Intent(MainActivity.this, AddActivity.class));
+                    startActivity(new Intent(MainActivity.this, PostActivity.class));
                     break;
                 }
                 case R.id.nav_heart: {
