@@ -27,6 +27,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,8 +69,10 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-        //Crop image with ratio
-        CropImage.activity().setAspectRatio(2, 3).start(PostActivity.this);
+        //Crop image with ratio or free-style
+//        CropImage.activity().setAspectRatio(2, 3).start(PostActivity.this);
+        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(PostActivity.this);
+
 
     }
 
