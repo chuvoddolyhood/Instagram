@@ -16,8 +16,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.instagram.Adapter.PhotoAdapter;
 import com.example.instagram.Model.Post;
 import com.example.instagram.Model.User;
 import com.example.instagram.R;
@@ -29,6 +33,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 public class ProfileFragment extends Fragment {
     ImageView image_profile, options;
     TextView posts, followers, following, fullname, bio, username;
@@ -39,6 +48,10 @@ public class ProfileFragment extends Fragment {
     String profileid;
 
     View view;
+
+    RecyclerView recyclerView;
+    PhotoAdapter photoAdapter;
+    List<Post> postList;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
@@ -89,6 +102,15 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+
+        //Hien thi hinh anh ra grid
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new GridLayoutManager(getContext(), 3);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        postList = new ArrayList<>();
+        photoAdapter = new PhotoAdapter(getContext(), postList);
+        recyclerView.setAdapter(photoAdapter);
+        myPhotos();
 
         return view;
     }
@@ -193,6 +215,30 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    //Show photo from firebase
+    private void myPhotos(){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                postList.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Post mpost = dataSnapshot.getValue(Post.class);
+                    if(mpost.getPublisher().equals(profileid)){
+                        postList.add(mpost);
+                    }
+                }
+                Collections.reverse(postList);
+                photoAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private void anhXa(){
         image_profile = view.findViewById(R.id.image_profile);
         options = view.findViewById(R.id.options_profile);
@@ -205,5 +251,6 @@ public class ProfileFragment extends Fragment {
         edit_profile = view.findViewById(R.id.edit_profile);
         my_photos = view.findViewById(R.id.my_photo_profile);
         saved_photo = view.findViewById(R.id.savePhoto_profile);
+        recyclerView = view.findViewById(R.id.recycler_view_profile);
     }
 }
