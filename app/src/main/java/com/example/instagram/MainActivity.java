@@ -29,11 +29,24 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
-        //Open Fragment Home
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, new HomeFragment());
-        transaction.addToBackStack(null);
-        transaction.commit();
+
+        //Comment
+        Bundle intent = getIntent().getExtras();
+        if(intent != null){
+            String publisher = intent.getString("publisher");
+
+            SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
+            editor.putString("profileid", publisher);
+            editor.apply();
+
+            getFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).addToBackStack(null).commit();
+        } else {
+            //Open Fragment Home
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, new HomeFragment());
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
