@@ -45,6 +45,7 @@ public class CommentsActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        //Them thong tin va Su kien cua nut Quay ve va hien thi "Comments"
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Comments");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -104,7 +105,7 @@ public class CommentsActivity extends AppCompatActivity {
 
     private void anhXa() {
         toolbar = findViewById(R.id.toolbar);
-        addComment = findViewById(R.id.txt_image_profile_comments);
+        addComment = findViewById(R.id.txt_add_comments);
         postComment = findViewById(R.id.post_comments);
         imageProfile = findViewById(R.id.image_profile_comments);
     }
