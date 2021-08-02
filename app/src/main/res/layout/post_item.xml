@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -25,12 +25,25 @@
                 android:id="@+id/username_newfeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@+id/image_profile_newfeed"
+                android:layout_toRightOf="@+id/image_profile_newfeed"
                 android:text="chuvod.dolyhood"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
-        </LinearLayout>
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/option"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_options"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/image_post"
