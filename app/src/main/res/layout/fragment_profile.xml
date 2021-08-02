@@ -34,7 +34,7 @@
                     android:text="chuvod.dolyhood"/>
 
                 <ImageView
-                    android:id="@+id/options"
+                    android:id="@+id/options_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_options_profile"
@@ -88,7 +88,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/posts"
+                                android:id="@+id/posts_number_profile"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorPrimaryDark"
@@ -110,7 +110,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/followers"
+                                android:id="@+id/followers_number_profile"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorPrimaryDark"
@@ -132,7 +132,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/following"
+                                android:id="@+id/following_number_profile"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorPrimaryDark"
@@ -152,10 +152,9 @@
                         android:id="@+id/edit_profile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/button_black"
-                        android:text="Edit Profile"
-                        android:textSize="5sp"/>
+                        android:layout_marginTop="2dp"
+                        android:padding="0dp"
+                        android:background="@drawable/button_black"/>
                 </LinearLayout>
             </LinearLayout>
 
