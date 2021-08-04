@@ -2,6 +2,7 @@ package com.example.instagram.Fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.example.instagram.Adapter.PhotoAdapter;
 import com.example.instagram.Model.Post;
 import com.example.instagram.Model.User;
+import com.example.instagram.OptionsActivity;
 import com.example.instagram.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -148,6 +150,15 @@ public class ProfileFragment extends Fragment {
 
         //Doc danh sach hinh anh save
         mySave();
+
+        //Event: Bam vao nut 3 gach trong profile de lua chon options
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), OptionsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

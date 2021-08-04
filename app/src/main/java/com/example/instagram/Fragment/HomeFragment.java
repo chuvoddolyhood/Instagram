@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +36,9 @@ public class HomeFragment extends Fragment {
     private List<String> followingList; //Danh sach nguoi dang follow
 
     View view;
+
+
+    ProgressBar progressBar;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
@@ -76,6 +80,9 @@ public class HomeFragment extends Fragment {
                     }
                 }
                 postAdapter.notifyDataSetChanged();
+
+                //Progressbar
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -113,5 +120,6 @@ public class HomeFragment extends Fragment {
 
     private void anhXa() {
         recyclerView = view.findViewById(R.id.recycler_view);
+        progressBar = view.findViewById(R.id.progress_circular);
     }
 }
