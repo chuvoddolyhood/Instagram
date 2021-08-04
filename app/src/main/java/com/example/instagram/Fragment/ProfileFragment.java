@@ -53,6 +53,11 @@ public class ProfileFragment extends Fragment {
     PhotoAdapter photoAdapter;
     List<Post> postList;
 
+    private List<String> saveList;
+    RecyclerView recyclerView_save;
+    PhotoAdapter photoAdapter_save;
+    List<Post> postList_save;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     @Override
@@ -103,7 +108,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        //Hien thi hinh anh ra grid
+        //Hien thi hinh anh ra grid o muc main
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -111,6 +116,38 @@ public class ProfileFragment extends Fragment {
         photoAdapter = new PhotoAdapter(getContext(), postList);
         recyclerView.setAdapter(photoAdapter);
         myPhotos();
+
+        //Hien thi hinh anh ra grid o muc save
+        recyclerView_save.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager_save = new GridLayoutManager(getContext(), 3);
+        recyclerView_save.setLayoutManager(linearLayoutManager_save);
+        postList_save = new ArrayList<>();
+        photoAdapter_save = new PhotoAdapter(getContext(), postList_save);
+        recyclerView_save.setAdapter(photoAdapter_save);
+
+        recyclerView.setVisibility(View.VISIBLE);
+        recyclerView_save.setVisibility(View.GONE);
+
+        //Xu ly su kien khi bam nut Photo tren Profile
+        my_photos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setVisibility(View.VISIBLE);
+                recyclerView_save.setVisibility(View.GONE);
+            }
+        });
+
+        //Xu ly su kien khi bam nut Save tren Profile
+        saved_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView_save.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            }
+        });
+
+        //Doc danh sach hinh anh save
+        mySave();
 
         return view;
     }
@@ -176,7 +213,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
         DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Follow")
                 .child(profileid).child("following");
         reference1.addValueEventListener(new ValueEventListener() {
@@ -239,6 +275,51 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    private void mySave(){
+        saveList = new ArrayList<>();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Saves")
+                .child(firebaseUser.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    saveList.add(dataSnapshot.getKey());
+                }
+                readSave();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void readSave(){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                postList_save.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Post post = dataSnapshot.getValue(Post.class);
+
+                    for(String id : saveList){
+                        if(post.getPostid().equals(id)){
+                            postList_save.add(post);
+                        }
+                    }
+                }
+                photoAdapter_save.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private void anhXa(){
         image_profile = view.findViewById(R.id.image_profile);
         options = view.findViewById(R.id.options_profile);
@@ -252,5 +333,6 @@ public class ProfileFragment extends Fragment {
         my_photos = view.findViewById(R.id.my_photo_profile);
         saved_photo = view.findViewById(R.id.savePhoto_profile);
         recyclerView = view.findViewById(R.id.recycler_view_profile);
+        recyclerView_save = view.findViewById(R.id.recycler_view_save_profile);
     }
 }
