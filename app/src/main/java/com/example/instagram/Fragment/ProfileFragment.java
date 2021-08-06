@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.instagram.Adapter.PhotoAdapter;
+import com.example.instagram.EditProfileActivity;
 import com.example.instagram.Model.Post;
 import com.example.instagram.Model.User;
 import com.example.instagram.OptionsActivity;
@@ -96,6 +97,8 @@ public class ProfileFragment extends Fragment {
                 String btn = edit_profile.getText().toString();
                 if(btn.equals("Edit Profile")){
                     //go to Edit Profile
+                    Intent intent = new Intent(getContext(), EditProfileActivity.class);
+                    startActivity(intent);
                 } else if (btn.equals("follow")){
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
                             .child("following").child(profileid).setValue(true);
