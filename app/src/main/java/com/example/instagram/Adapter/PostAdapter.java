@@ -27,7 +27,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     public Context context;
@@ -75,6 +77,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 if(holder.like.getTag().equals("like")){
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostid())
                             .child(firebaseUser.getUid()).setValue(true);
+
+                    //Tao noti
+                    addNotification(post.getPublisher(), post.getPostid());
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostid())
                             .child(firebaseUser.getUid()).removeValue();
@@ -287,5 +292,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
             }
         });
+    }
+
+    //Them thong tin vao Firebase khi co thong bao Notification
+    private void addNotification(String userid, String postid){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(userid);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("userid", firebaseUser.getUid());
+        map.put("text", "liked your post");
+        map.put("postid", postid);
+        map.put("isPost", true);
+
+        reference.push().setValue(map);
     }
 }

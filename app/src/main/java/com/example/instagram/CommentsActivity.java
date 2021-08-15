@@ -105,6 +105,10 @@ public class CommentsActivity extends AppCompatActivity {
         map.put("publisher", firebaseUser.getUid());
 
         reference.push().setValue(map);
+
+        //Them thong bao comment
+        addNotification();
+
         addComment.setText("");
     }
 
@@ -143,6 +147,20 @@ public class CommentsActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    //Them thong tin vao Firebase khi co thong bao Notification co nguoi comment
+    private void addNotification(){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(publisher);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("userid", firebaseUser.getUid());
+        map.put("text", "commented: "+ addComment.getText().toString());
+        map.put("postid", postid);
+        map.put("isPost", true);
+
+        reference.push().setValue(map);
     }
 
     private void anhXa() {

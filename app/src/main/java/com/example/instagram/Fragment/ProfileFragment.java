@@ -39,7 +39,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProfileFragment extends Fragment {
     ImageView image_profile, options;
@@ -104,11 +106,15 @@ public class ProfileFragment extends Fragment {
                             .child("following").child(profileid).setValue(true);
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
                             .child("followers").child(firebaseUser.getUid()).setValue(true);
+                    //Tao noti
+                    addNotification();
                 } else if(btn.equals("following")){
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
                             .child("following").child(profileid).removeValue();
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
                             .child("followers").child(firebaseUser.getUid()).removeValue();
+                    //Tao noti
+                    addNotification_unfollow();
                 }
             }
         });
@@ -332,6 +338,32 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+    }
+
+    //Them thong tin vao Firebase khi co thong bao Notification co nguoi follow
+    private void addNotification(){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(profileid);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("userid", firebaseUser.getUid());
+        map.put("text", "started following you");
+        map.put("postid", "");
+        map.put("isPost", false);
+
+        reference.push().setValue(map);
+    }
+
+    //Them thong tin vao Firebase khi co thong bao Notification co nguoi unfollowed
+    private void addNotification_unfollow(){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(profileid);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("userid", firebaseUser.getUid());
+        map.put("text", "unfollowed you");
+        map.put("postid", "");
+        map.put("isPost", false);
+
+        reference.push().setValue(map);
     }
 
     private void anhXa(){
