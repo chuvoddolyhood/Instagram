@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.instagram.CommentsActivity;
+import com.example.instagram.FollowersActivity;
 import com.example.instagram.Fragment.ProfileFragment;
 import com.example.instagram.Model.Post;
 import com.example.instagram.Model.User;
@@ -162,6 +163,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
                 ((FragmentActivity)context).getFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ProfileFragment()).commit();
+            }
+        });
+
+        //Event: click vao so like duoi bai post
+        holder.txt_likes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, FollowersActivity.class);
+                intent.putExtra("id", post.getPostid());
+                intent.putExtra("title", "likes");
+                context.startActivity(intent);
             }
         });
 
