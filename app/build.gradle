@@ -53,4 +53,7 @@ dependencies {
     // Material Design EditText in our apps
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
 
+    //add library story view like Instagram
+    implementation 'com.github.shts:StoriesProgressView:3.0.0'
+
 }
