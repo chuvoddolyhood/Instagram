@@ -18,6 +18,7 @@ import com.example.instagram.AddStoryActivity;
 import com.example.instagram.Model.Story;
 import com.example.instagram.Model.User;
 import com.example.instagram.R;
+import com.example.instagram.StoryActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +33,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
     private Context context;
     private List<Story> storyList;
     private FirebaseUser firebaseUser;
+    private Story story;
 
     public StoryAdapter(Context context, List<Story> storyList) {
         this.context = context;
@@ -70,6 +72,9 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
                     myStory(holder.addstory_text, holder.story_plus, true);
                 } else {
                     //TODO: go to story
+                    Intent intent = new Intent(context, StoryActivity.class);
+                    intent.putExtra("userid", story.getUserid());
+                    context.startActivities(new Intent[]{intent});
                 }
             }
         });
@@ -148,6 +153,10 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //TODO: go to story
+                                Intent intent = new Intent(context, StoryActivity.class);
+                                intent.putExtra("userid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                context.startActivities(new Intent[]{intent});
+                                dialog.dismiss();
                             }
                         });
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Add story",
