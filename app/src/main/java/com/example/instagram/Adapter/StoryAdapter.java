@@ -1,6 +1,9 @@
 package com.example.instagram.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.instagram.AddStoryActivity;
 import com.example.instagram.Model.Story;
 import com.example.instagram.Model.User;
 import com.example.instagram.R;
@@ -107,8 +111,8 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                //Co BUG
-                Glide.with(context).load(user.getImageurl()).into(viewHolder.story_photo_add_story);
+                //TODO: Co BUG
+//                Glide.with(context).load(user.getImageurl()).into(viewHolder.story_photo_add_story);
                 if(position != 0){
                     Glide.with(context).load(user.getImageurl()).into(viewHolder.story_photo_seen);
                     viewHolder.story_username.setText(user.getUsername());
@@ -137,7 +141,29 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
                     }
                 }
                 if(click){
-                    //Todo: show alert dialog
+                    if(count > 0){
+                        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "View story",
+                                new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //TODO: go to story
+                            }
+                        });
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Add story",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(context, AddStoryActivity.class);
+                                        context.startActivities(new Intent[]{intent});
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.show();
+                    } else {
+                        Intent intent = new Intent(context, AddStoryActivity.class);
+                        context.startActivities(new Intent[]{intent});
+                    }
                 } else {
                     if(count > 0){
                         textView.setText("My Story");
@@ -172,7 +198,8 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
                 }
 
                 if(i > 0){
-                    viewHolder.story_photo_add_story.setVisibility(View.VISIBLE);
+                    //TODO: Co BUG
+//                    viewHolder.story_photo_add_story.setVisibility(View.VISIBLE);
                     viewHolder.story_photo_seen.setVisibility(View.GONE);
                 } else {
                     viewHolder.story_photo_add_story.setVisibility(View.GONE);
